@@ -588,7 +588,7 @@ def getAndroidRuntimeJar() {
 	// Android subprojects of Smack. Currently we require level 16
 	// here, because of the @TargetApi annotation found in
 	// AndroidUsingLinkProperties of minidns-android21.
-	def androidApiLevel = 16
+	def androidApiLevel = 17
 	def androidHome = getAndroidHome()
 	def androidJar = new File("$androidHome/platforms/android-${androidApiLevel}/android.jar")
 	if (androidJar.isFile()) {
