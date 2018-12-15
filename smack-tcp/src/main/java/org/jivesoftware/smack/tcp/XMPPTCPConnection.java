@@ -475,6 +475,21 @@ public class XMPPTCPConnection extends AbstractXMPPConnection {
         shutdown(true);
     }
 
+    /**
+     * Aborts an ongoing connection attempt. Does not clean up or send a closing stream stanza.
+     */
+    public void abortConnect() {
+        if (!connecting)
+            return;
+        connecting = false;
+        try {
+                socket.close();
+        } catch (Exception e) {
+                LOGGER.log(Level.WARNING, "abortConnect", e);
+        }
+
+    }
+
     private void shutdown(boolean instant) {
         if (disconnectedButResumeable) {
             return;
@@ -580,6 +595,8 @@ public class XMPPTCPConnection extends AbstractXMPPConnection {
                     final String inetAddressAndPort = inetAddress + " at port " + port;
                     LOGGER.finer("Trying to establish TCP connection to " + inetAddressAndPort);
                     try {
+                        if (!connecting)
+                            throw new InterruptedException("connect aborted");
                         socket.connect(new InetSocketAddress(inetAddress, port), timeout);
                     } catch (Exception e) {
                         hostAddress.setException(inetAddress, e);

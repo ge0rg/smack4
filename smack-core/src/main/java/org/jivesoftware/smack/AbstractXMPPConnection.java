@@ -200,6 +200,7 @@ public abstract class AbstractXMPPConnection implements XMPPConnection {
      */
     protected EntityFullJid user;
 
+    protected volatile boolean connecting = false;
     protected boolean connected = false;
 
     /**
@@ -399,6 +400,7 @@ public abstract class AbstractXMPPConnection implements XMPPConnection {
         throwAlreadyConnectedExceptionIfAppropriate();
 
         // Reset the connection state
+        connecting = true;
         saslAuthentication.init();
         saslFeatureReceived.init();
         lastFeaturesReceived.init();
@@ -417,6 +419,7 @@ public abstract class AbstractXMPPConnection implements XMPPConnection {
         }
 
         // Make note of the fact that we're now connected.
+        connecting = false;
         connected = true;
         callConnectionConnectedListener();
 
