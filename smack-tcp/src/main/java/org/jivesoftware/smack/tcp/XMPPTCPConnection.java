@@ -1074,16 +1074,19 @@ public class XMPPTCPConnection extends AbstractXMPPConnection {
         void init() {
             done = false;
 
+            final String threadName = "Smack Reader (" + getConnectionCounter() + ')';
             Async.go(new Runnable() {
                 @Override
                 public void run() {
+                    LOGGER.finer(threadName + " start");
                     try {
                         parsePackets();
                     } finally {
+                        LOGGER.finer(threadName + " exit");
                         XMPPTCPConnection.this.readerWriterSemaphore.release();
                     }
                 }
-            }, "Smack Reader (" + getConnectionCounter() + ")");
+            }, threadName);
          }
 
         /**
@@ -1378,16 +1381,19 @@ public class XMPPTCPConnection extends AbstractXMPPConnection {
             }
 
             queue.start();
+            final String threadName = "Smack Writer (" + getConnectionCounter() + ')';
             Async.go(new Runnable() {
                 @Override
                 public void run() {
+                    LOGGER.finer(threadName + " start");
                     try {
                         writePackets();
                     } finally {
+                        LOGGER.finer(threadName + " exit");
                         XMPPTCPConnection.this.readerWriterSemaphore.release();
                     }
                 }
-            }, "Smack Writer (" + getConnectionCounter() + ")");
+            }, threadName);
         }
 
         private boolean done() {
