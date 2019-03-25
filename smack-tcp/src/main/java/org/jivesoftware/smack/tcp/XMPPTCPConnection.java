@@ -141,6 +141,7 @@ import org.jxmpp.jid.impl.JidCreate;
 import org.jxmpp.jid.parts.Resourcepart;
 import org.jxmpp.stringprep.XmppStringprepException;
 import org.jxmpp.util.XmppStringUtils;
+import org.minidns.dnsname.DnsName;
 import org.xmlpull.v1.XmlPullParser;
 import org.xmlpull.v1.XmlPullParserException;
 
@@ -855,9 +856,12 @@ public class XMPPTCPConnection extends AbstractXMPPConnection {
         }
 
         final HostnameVerifier verifier = getConfiguration().getHostnameVerifier();
+        // convert Unicode domain into ASCII Compatible Encoding to match RFC3280 dNSname IA5String constraint
+        // see also: https://bugzilla.mozilla.org/show_bug.cgi?id=280839#c1
+        String ace_domain = DnsName.from(config.getXMPPServiceDomain()).toString();
         if (verifier == null) {
                 throw new IllegalStateException("No HostnameVerifier set. Use connectionConfiguration.setHostnameVerifier() to configure.");
-        } else if (!verifier.verify(getXMPPServiceDomain().toString(), sslSocket.getSession())) {
+        } else if (!verifier.verify(ace_domain, sslSocket.getSession())) {
             throw new CertificateException("Hostname verification of certificate failed. Certificate does not authenticate " + getXMPPServiceDomain());
         }
 
