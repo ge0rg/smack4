@@ -406,6 +406,11 @@ public final class PubSubManager extends Manager {
         return leafNode;
     }
 
+    public LeafNode createUnverifiedLeafNode(String id) {
+        LeafNode leafNode = new LeafNode(this, id);
+        return leafNode;
+    }
+
     /**
      * Get all the nodes that currently exist as a child of the specified
      * collection node.  If the service does not support collection nodes
