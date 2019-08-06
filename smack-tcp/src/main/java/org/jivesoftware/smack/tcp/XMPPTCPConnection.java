@@ -543,8 +543,10 @@ public class XMPPTCPConnection extends AbstractXMPPConnection {
         setWasAuthenticated();
 
         // Wait for reader and writer threads to be terminated.
+	LOGGER.log(Level.FINE, "shutdown: waiting for readerWriterSemaphore: {0}.", new Object[] { readerWriterSemaphore });
         readerWriterSemaphore.acquireUninterruptibly(2);
         readerWriterSemaphore.release(2);
+	LOGGER.log(Level.FINE, "shutdown: waiting for readerWriterSemaphore completed.");
 
         if (disconnectedButResumeable) {
             return;
