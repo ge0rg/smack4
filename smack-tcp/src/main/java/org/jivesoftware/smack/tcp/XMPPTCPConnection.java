@@ -1080,7 +1080,7 @@ public class XMPPTCPConnection extends AbstractXMPPConnection {
             from = XmppStringUtils.completeJidFrom(localpart, to);
         }
         String id = getStreamId();
-        sendNonza(new StreamOpen(to, from, id));
+        sendNonza(new StreamOpen(to, from, id, config.getXmlLang(), StreamOpen.StreamContentNamespace.client));
         try {
             packetReader.parser = PacketParserUtils.newXmppParser(reader);
         }
