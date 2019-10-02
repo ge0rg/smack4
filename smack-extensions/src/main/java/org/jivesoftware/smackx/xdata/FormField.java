@@ -159,6 +159,40 @@ public class FormField implements NamedElement {
         this.variable = StringUtils.requireNotNullOrEmpty(variable, "Variable must not be null or empty");
     }
 
+
+    /**
+     * Creates a new FormField with a variable set to a value.
+     *
+     * @param variable the variable name of the form field.
+     * @param value the field value for the variable.
+     */
+    public FormField(String variable, CharSequence value) {
+        this(variable);
+        addValue(value);
+    }
+
+    /**
+     * Creates a new FormField with a variable set to a value.
+     *
+     * @param variable the variable name of the form field.
+     * @param value the field value for the variable.
+     */
+    public FormField(String variable, Date value) {
+        this(variable);
+        addValue(value);
+    }
+
+    /**
+     * Creates a new FormField with a variable set to a list of values.
+     *
+     * @param variable the variable name of the form field.
+     * @param values the field values for the variable.
+     */
+    public FormField(String variable, List<? extends CharSequence> values) {
+        this(variable);
+        addValues(values);
+    }
+
     /**
      * Creates a new FormField of type FIXED. The fields of type FIXED do not define a variable
      * name.
