@@ -38,7 +38,7 @@ import org.jxmpp.jid.Jid;
  */
 public class MamElements {
 
-    public static final String NAMESPACE = "urn:xmpp:mam:1";
+    public static final String NAMESPACE = "urn:xmpp:mam:2";
 
     /**
      * MAM result extension class.
